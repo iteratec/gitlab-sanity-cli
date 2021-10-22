@@ -1,0 +1,137 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build_release:
+    name: build_release
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go 1.17
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17
+        id: go
+
+      - name: Compile
+        run: |
+          make
+
+      - name: version
+        run: echo "::set-output name=version::$(cat VERSION)"
+        id: version
+
+      - name: zip artefacts
+        run: |
+          tar czf gitlab-sanity-cli.freebsd.amd64.tar.gz gitlab-sanity-cli.freebsd
+          tar czf gitlab-sanity-cli.linux.amd64.tar.gz gitlab-sanity-cli.linux
+          tar czf gitlab-sanity-cli.darwin.amd64.tar.gz gitlab-sanity-cli.darwin
+          zip czf gitlab-sanity-cli.freebsd.amd64.tar.gz gitlab-sanity-cli.freebsd
+          zip --junk-paths gitlab-sanity-cli.windows.amd64.zip gitlab-sanity-cli.windows
+
+      - name: create hash of artefacts
+        run: |
+          sha256sum gitlab-sanity-cli.freebsd.amd64.tar.gz > gitlab-sanity-cli.freebsd.amd64.tar.gz.sha256
+          sha256sum gitlab-sanity-cli.linux.amd64.tar.gz > gitlab-sanity-cli.linux.amd64.tar.gz.sha256
+          sha256sum gitlab-sanity-cli.darwin.amd64.tar.gz > gitlab-sanity-cli.darwin.amd64.tar.gz.sha256
+          sha256sum gitlab-sanity-cli.window.amd64.zip > gitlab-sanity-cli.windows.amd64.zip.sha256
+
+      - name: release
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          draft: false
+          prerelease: false
+          release_name: ${{ steps.version.outputs.version }}
+          tag_name: ${{ github.ref }}
+          body_path: CHANGELOG.md
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: upload freebsd version
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./gitlab-sanity-cli.freebsd.amd64.tar.gz
+          asset_name: gitlab-sanity-cli.freebsd.amd64.tar.gz
+          asset_content_type: application/gzip
+
+      - name: upload freebsd version hashfile
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./gitlab-sanity-cli.freebsd.amd64.tar.gz.sha256
+          asset_name: gitlab-sanity-cli.freebsd.amd64.tar.gz.sha256
+          asset_content_type: application/gzip
+
+      - name: upload linux version
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./gitlab-sanity-cli.linux.amd64.tar.gz
+          asset_name: gitlab-sanity-cli.linux.amd64.tar.gz
+          asset_content_type: application/gzip
+
+      - name: upload linux version hashfile
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./gitlab-sanity-cli.linux.amd64.tar.gz.sha256
+          asset_name: gitlab-sanity-cli.linux.amd64.tar.gz.sha256
+          asset_content_type: application/gzip
+
+      - name: upload darwin version
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./gitlab-sanity-cli.darwin.amd64.tar.gz
+          asset_name: gitlab-sanity-cli.darwin.amd64.tar.gz
+          asset_content_type: application/gzip
+
+      - name: upload darwin version hashfile
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./gitlab-sanity-cli.darwin.amd64.tar.gz.sha256
+          asset_name: gitlab-sanity-cli.darwin.amd64.tar.gz.sha256
+          asset_content_type: application/gzip
+
+      - name: upload windows version
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./gitlab-sanity-cli.windows.amd64.zip
+          asset_name: gitlab-sanity-cli.windows.amd64.zip
+          asset_content_type: application/zip
+
+      - name: upload windows version hashfile
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./gitlab-sanity-cli.windows.amd64.zip.sha256
+          asset_name: gitlab-sanity-cli.windows.amd64.zip.sha256
+          asset_content_type: application/zip
