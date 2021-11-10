@@ -88,12 +88,14 @@ shasum -a 256 -c gitlab-sanity-cli.${OS}.amd64.tar.gz.sha256
 On Windows
 
 ```cmd
-CertUtil -hashfile gitlab-sanity-cli.windows.amd64.zip SHA256
+CertUtil -hashfile gitlab-sanity-cli.windows.amd64.zip.sha256 SHA256
 ```
 
 ```powershell
-Get-FileHash gitlab-sanity-cli.windows.amd64.zip -Algorithm SHA256
+Get-FileHash gitlab-sanity-cli.windows.amd64.zip.sha256 -Algorithm SHA256
 ```
+
+<b>Security Note: <font color=red>Please continue only if the hash verification was OK, otherwise don't use the tool!</font></b>
 
 ### 3. Extract Binary from archive
 
@@ -111,6 +113,14 @@ On Windows
 powershell -command "Expand-Archive -Force 'gitlab-sanity-cli.windows.amd64.zip' '.'"
 ```
 
+Check Binary Version
+
+```sh
+./gitlab-sanity-cli -v
+
+Gitlab Sanity CLI (@iteratec)
+VERSION: x.y.z
+```
 
 See [Parameter Matrix](#parameter-matrix) from above for examples
 
