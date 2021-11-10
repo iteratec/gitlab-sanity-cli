@@ -54,60 +54,61 @@ The CLI is currently able to list, remove and archive the resources: users, proj
 
 - [GitLab Access Token with api, repository access](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html)
 
-### Download binary version
+### 1. Download binary version
 
 On Linux/MacOS/FreeBSD
 
 ```sh
-export OS=`uname -s`
-curl -L -O https://github.com/iteratec/gitlab-sanity-cli/releases/latest/download/gitlab-sanity-cli.${OS}
-curl -L -O https://github.com/iteratec/gitlab-sanity-cli/releases/latest/download/gitlab-sanity-cli.${OS}.sha256
+export OS=`uname -s | tr '[A-Z]' '[a-z]'`
+curl -L -O https://github.com/iteratec/gitlab-sanity-cli/releases/latest/download/gitlab-sanity-cli.${OS}.amd64.tar.gz
+curl -L -O https://github.com/iteratec/gitlab-sanity-cli/releases/latest/download/gitlab-sanity-cli.${OS}.amd64.tar.gz.sha256
 ```
 
 On Windows (open Powershell or Cmd and run follow commands)
 
 ```cmd
-curl -L -O https://github.com/iteratec/gitlab-sanity-cli/releases/latest/download/gitlab-sanity-cli.windows
+curl -L -O https://github.com/iteratec/gitlab-sanity-cli/releases/latest/download/gitlab-sanity-cli.windows.amd64.zip
 curl -L -O https://github.com/iteratec/gitlab-sanity-cli/releases/latest/download/gitlab-sanity-cli.windows.sha256
 ```
 
-### Verify Download
+### 2. Verify Download
 
 On Linux
 
 ```sh
-sha256sum gitlab-sanity-cli.${OS}
+sha256sum -c gitlab-sanity-cli.${OS}.amd64.tar.gz.sha256
 ```
 
 On MacOS/FreeBSD
 
 ```sh
-shasum -a 256 gitlab-sanity-cli.${OS}
+shasum -a 256 -c gitlab-sanity-cli.${OS}.amd64.tar.gz.sha256
 ```
 
 On Windows
 
 ```cmd
-CertUtil -hashfile gitlab-sanity-cli.windows SHA256
+CertUtil -hashfile gitlab-sanity-cli.windows.amd64.zip SHA256
 ```
 
 ```powershell
-Get-FileHash gitlab-sanity-cli.windows -Algorithm SHA256
+Get-FileHash gitlab-sanity-cli.windows.amd64.zip -Algorithm SHA256
 ```
 
-### Extract Binary
+### 3. Extract Binary from archive
 
 On Linux/MacOS/Windows
 
 ```sh
-tar xvzf gitlab-sanity-cli.${OS}.tar.gz
+tar xvzf gitlab-sanity-cli.${OS}.amd64.tar.gz
+mv gitlab-sanity-cli.${OS} gitlab-sanity-cli
 chmod 0755 ./gitlab-sanity-cli
 ```
 
 On Windows
 
 ```sh
-powershell -command "Expand-Archive -Force 'gitlab-sanity-cli.windows.zip' '.'"
+powershell -command "Expand-Archive -Force 'gitlab-sanity-cli.windows.amd64.zip' '.'"
 ```
 
 
@@ -137,6 +138,7 @@ go run cmd/main.go -h
 ### Requirements
 
 - [go](https://golang.org)
+- [gnumake](https://www.gnu.org/software/make/)
 
 Use make to create the binaries
 
