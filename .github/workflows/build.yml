@@ -29,19 +29,9 @@ jobs:
         run: echo "::set-output name=version::$(cat VERSION)"
         id: version
 
-      - name: zip artefacts
+      - name: create release files
         run: |
-          tar czf gitlab-sanity-cli.freebsd.amd64.tar.gz gitlab-sanity-cli.freebsd
-          tar czf gitlab-sanity-cli.linux.amd64.tar.gz gitlab-sanity-cli.linux
-          tar czf gitlab-sanity-cli.darwin.amd64.tar.gz gitlab-sanity-cli.darwin
-          zip --junk-paths gitlab-sanity-cli.windows.amd64.zip gitlab-sanity-cli.windows
-
-      - name: create hash of artefacts
-        run: |
-          sha256sum gitlab-sanity-cli.freebsd.amd64.tar.gz > gitlab-sanity-cli.freebsd.amd64.tar.gz.sha256
-          sha256sum gitlab-sanity-cli.linux.amd64.tar.gz > gitlab-sanity-cli.linux.amd64.tar.gz.sha256
-          sha256sum gitlab-sanity-cli.darwin.amd64.tar.gz > gitlab-sanity-cli.darwin.amd64.tar.gz.sha256
-          sha256sum gitlab-sanity-cli.window.amd64.zip > gitlab-sanity-cli.windows.amd64.zip.sha256
+          make release
 
       - name: release
         uses: actions/create-release@v1
