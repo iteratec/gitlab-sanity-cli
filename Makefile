@@ -38,13 +38,13 @@ archive:
 	$(TAR) $(ARTEFACTSDIR)/$(BINARYNAME).freebsd.amd64.tar.gz $(ARTEFACTSDIR)/$(BINARYNAME).freebsd
 	$(TAR) $(ARTEFACTSDIR)/$(BINARYNAME).linux.amd64.tar.gz $(ARTEFACTSDIR)/$(BINARYNAME).linux
 	$(TAR) $(ARTEFACTSDIR)/$(BINARYNAME).darwin.amd64.tar.gz $(ARTEFACTSDIR)/$(BINARYNAME).darwin
-	$(ZIP) $(ARTEFACTSDIR)/$(BINARYNAME).windows.zip $(ARTEFACTSDIR)/$(BINARYNAME).windows
+	$(ZIP) $(ARTEFACTSDIR)/$(BINARYNAME).windows.amd64.zip $(ARTEFACTSDIR)/$(BINARYNAME).windows
 
 hash:
 	$(SHASUM) $(ARTEFACTSDIR)/$(BINARYNAME).freebsd.amd64.tar.gz > $(ARTEFACTSDIR)/$(BINARYNAME).freebsd.amd64.tar.gz.sha256
 	$(SHASUM) $(ARTEFACTSDIR)/$(BINARYNAME).linux.amd64.tar.gz > $(ARTEFACTSDIR)/$(BINARYNAME).linux.amd64.tar.gz.sha256
 	$(SHASUM) $(ARTEFACTSDIR)/$(BINARYNAME).darwin.amd64.tar.gz > $(ARTEFACTSDIR)/$(BINARYNAME).darwin.amd64.tar.gz.sha256
-	$(SHASUM) $(ARTEFACTSDIR)/$(BINARYNAME).windows.zip > $(ARTEFACTSDIR)/$(BINARYNAME).windows.zip.sha256
+	$(SHASUM) $(ARTEFACTSDIR)/$(BINARYNAME).windows.amd64.zip > $(ARTEFACTSDIR)/$(BINARYNAME).windows.amd64.zip.sha256
 
 release: archive hash
 
