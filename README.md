@@ -1,18 +1,18 @@
 # GitLab Sanity CLI
 
-GitLab Sanity CLI is a command line tool for cleanup GitLab server.
+GitLab Sanity CLI is a command line tool to cleanup GitLab server.
 
 ## Motivation
 
 Why this tool ?
 
-This CLI was made to automate sanity jobs (like clean old unused GitLab Runners) which is currently not possible by GitLab server WebUI.
+This CLI was made to automate sanity jobs (like remove old unused GitLab Runners registrations) which is currently not possible by GitLab server WebUI.
 
-The main purpose was to save time for cleanup tousend of runners and group-runners.
+The main purpose was to save time for cleanup tousend of runners, group-runners registrations and old projects.
 
 ## Features
 
-The CLI is currently able to list, remove and archive the resources: users, projects, runners, grouprunners. 
+The CLI is able to list, remove and archive a set of resources.
 
 ### Parameter Matrix
 
@@ -52,7 +52,7 @@ The CLI is currently able to list, remove and archive the resources: users, proj
 
 ### Requirements
 
-- [GitLab Access Token with api, repository access](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html)
+- [GitLab Access Token for api and repository access](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html)
 
 ### 1. Download binary version
 
@@ -99,7 +99,7 @@ Get-FileHash gitlab-sanity-cli.windows.amd64.zip.sha256 -Algorithm SHA256
 
 ### 3. Extract Binary from archive
 
-On Linux/MacOS/Windows
+On Linux/MacOS/FreeBSD
 
 ```sh
 tar xvzf gitlab-sanity-cli.${OS}.amd64.tar.gz
