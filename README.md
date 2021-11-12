@@ -23,12 +23,12 @@ The CLI is able to list, remove and archive a set of resources.
 |-t, --token|`string`|''|The GitLab API Access Token|
 |-o, --operation|`string`|''|Action to run (see below)|
 |-r, --resource|`string`|''|GitLab Resource to interact with|
-|-i, --identifier|`int`|-1|Specific Resource ID|
+|-i, --identifier|`int`|''|Specific Resource ID|
 |-a, --age|`int`|36|Filter by last activity in months|
 |-q, --query|`string`|''|Search by name|
 |-s, --state|`string`|''|Filter list by state|
 |-d, --dry-run|`boolean`|false|Dry run, does not change/delete any resources|
-|-n, --num-concurrent-api-calls|`int`|100|Limit the amount of concurrent API Calls|
+|-n, --num-concurrent-api-calls|`int`|10|Limit the amount of concurrent go routines to call the GitLab API|
 
 
 | Action | Resource | Query filter applicable | Age filter applicable | Status filter applicable | Example |
@@ -113,13 +113,19 @@ On Windows
 powershell -command "Expand-Archive -Force 'gitlab-sanity-cli.windows.amd64.zip' '.'"
 ```
 
-Check Binary Version
+Check binary version
 
 ```sh
 ./gitlab-sanity-cli -v
 
 Gitlab Sanity CLI (@iteratec)
 VERSION: x.y.z
+```
+
+Test
+
+```sh
+./gitlab-sanity-cli -u gitlabserver.tld -t apitoken -o list -r project
 ```
 
 See [Parameter Matrix](#parameter-matrix) from above for examples
