@@ -18,6 +18,7 @@ import (
 )
 
 const (
+	version       = "1.0.1"
 	hoursPerMonth = 30 * 24
 	newLine       = "\r\n"
 )
@@ -25,11 +26,7 @@ const (
 func init() {
 	if len(os.Args) > 1 {
 		if strings.Compare(os.Args[1], "-v") == 0 || strings.Compare(os.Args[1], "-version") == 0 || strings.Compare(os.Args[1], "--version") == 0 {
-			version, err := os.ReadFile("VERSION")
-			if err != nil {
-				log.Fatal(err)
-			}
-			fmt.Printf("Gitlab Sanity CLI (@iteratec)\nVERSION: %v\n", string(version))
+			fmt.Printf("Gitlab Sanity CLI (@iteratec)\nVERSION: %v\n", version)
 			os.Exit(0)
 		}
 	}
@@ -109,7 +106,7 @@ func newGitLabClient(config gitlabsanitycli.Config) (git *gitlab.Client, err err
 	return git, err
 }
 
-func setNumConCurrentApiCalls(config gitlabsanitycli.Config) {
+func setNumConcurrentApiCalls(config gitlabsanitycli.Config) {
 	// Retrieve Max Concurrent API Call
 	if config.NumConCurrentApiCalls != 0 {
 		gitlabsanitycli.ConcurrentAPIRequest = config.NumConCurrentApiCalls
@@ -131,7 +128,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	setNumConCurrentApiCalls(config)
+	setNumConcurrentApiCalls(config)
 
 	// Create git client
 	git, err := newGitLabClient(config)

@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.1]
+## Changes
+Fix version check (https://github.com/iteratec/gitlab-sanity-cli/issues/1)
+
 ## [1.0.0]
 ## Changes
 Mark as public release
