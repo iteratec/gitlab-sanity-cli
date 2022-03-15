@@ -18,7 +18,7 @@ import (
 )
 
 const (
-	version       = "1.0.1"
+	version       = "1.0.2"
 	hoursPerMonth = 30 * 24
 	newLine       = "\r\n"
 )
@@ -38,7 +38,7 @@ func parseParameters() gitlabsanitycli.Config {
 	return config
 }
 
-func validateParameters(config gitlabsanitycli.Config) error {
+func validateParameters(config *gitlabsanitycli.Config) error {
 	config.Age = int(math.Max(0, float64(config.Age))) * hoursPerMonth
 
 	// Retrieve Gitlab token
@@ -59,6 +59,9 @@ func validateParameters(config gitlabsanitycli.Config) error {
 				return errors.New("GitLab token missing")
 			}
 		}
+	}
+	if len(config.ProjectType) < 1 {
+		config.ProjectType = "internal"
 	}
 	return nil
 }
@@ -124,7 +127,7 @@ func setNumConcurrentApiCalls(config gitlabsanitycli.Config) {
 func main() {
 	// Parse arguments
 	config := parseParameters()
-	if err := validateParameters(config); err != nil {
+	if err := validateParameters(&config); err != nil {
 		log.Fatal(err)
 	}
 

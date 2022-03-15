@@ -51,7 +51,6 @@ func (p ProjectHandler) ApiCallFunc(page int) ([]int, *gitlab.Response, error) {
 
 func (p ProjectHandler) Controller(channelHandlerFunc ChannelHandlerFunc) {
 	p.ListOptions = gitlab.ListProjectsOptions{
-		Visibility:       gitlab.Visibility("internal"),
 		SearchNamespaces: gitlab.Bool(false),
 		Membership:       gitlab.Bool(false),
 		Owned:            gitlab.Bool(false),
@@ -59,6 +58,12 @@ func (p ProjectHandler) Controller(channelHandlerFunc ChannelHandlerFunc) {
 		Sort:             gitlab.String("asc"),
 		Archived:         gitlab.Bool(false),
 		ListOptions:      gitlab.ListOptions{PerPage: PageSize},
+	}
+	switch p.Config.ProjectType {
+	case "private":
+		p.ListOptions.Visibility = gitlab.Visibility(gitlab.PrivateVisibility)
+	case "public":
+		p.ListOptions.Visibility = gitlab.Visibility(gitlab.PublicVisibility)
 	}
 
 	if len(p.Config.Query) > 0 {
@@ -70,8 +75,8 @@ func (p ProjectHandler) Controller(channelHandlerFunc ChannelHandlerFunc) {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	genericHandler(p, channelHandlerFunc, resp.TotalPages)
+
 }
 
 func (p ProjectHandler) archiveProject(projectId int, dryRun bool) {

@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.2]
+## Added
+New parameter for resource projects: `-p, --project-type`.
+    This parameter selects the project visibility level (public, internal, private). The default visibility level is set to internal.
+
 ## [1.0.1]
 ## Changes
 Fix version check (https://github.com/iteratec/gitlab-sanity-cli/issues/1)
