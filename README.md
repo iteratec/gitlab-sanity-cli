@@ -23,6 +23,7 @@ The CLI is able to list, remove and archive a set of resources.
 |-t, --token|`string`|''|The GitLab API Access Token|
 |-o, --operation|`string`|''|Action to run (see below)|
 |-r, --resource|`string`|''|GitLab Resource to interact with|
+|-p, --project-type|`string`|internal|Set the project visibility filter (internal, private, public)|
 |-i, --identifier|`int`|''|Specific Resource ID|
 |-a, --age|`int`|36|Filter by last activity in months|
 |-q, --query|`string`|''|Search by name|
