@@ -35,7 +35,7 @@ The CLI is able to list, remove and archive a set of resources.
 | Action | Resource | Query filter applicable | Age filter applicable | Status filter applicable | Example |
 |---|---|---|---|---|---|
 |list|user|YES|-|-| List user with name admin: <br> `gitlab-sanity-cli -o list -r user -q admin`|
-|list|project|YES|YES|-| List projects older two years: <br> `gitlab-sanity-cli -o list -r project -a 24`|
+|list|project|YES|YES|-| List internal projects older two years: <br> `gitlab-sanity-cli -o list -r project -a 24 -p internal`|
 |list|runner|YES|-|YES| List docker based runner: <br> `gitlab-sanity-cli -o list -r runner -q docker`|
 |list|groupRunner|YES|-|YES| List online kubernetes based runner: <br> `gitlab-sanity-cli -o list -r groupRunner -q kubernetes -s online` |
 |delete|user|-|-|-| <b>Delete is not capable on users</b> |
@@ -47,7 +47,7 @@ The CLI is able to list, remove and archive a set of resources.
 |delete-all|runner|YES|-|YES| Remove all offline runner: <br>`gitlab-sanity-cli -o delete-all -r runner -s offline`|
 |delete-all|groupRunner|YES|-|YES| Remove all groupRunner (offline and online): <br>`gitlab-sanity-cli -o delete-all -r groupRunner` |
 |archive|project|-|-|-|Archive project with ID 123:<br>`gitlab-sanity-cli -o archive -r project -i 123`|
-|archive-all|project|YES|YES|-|Archive project with name testing:<br>`gitlab-sanity-cli -o archive-all -r project -q testing -a 0`|
+|archive-all|project|YES|YES|-|Archive project with name testing:<br>`gitlab-sanity-cli -o archive-all -r project -q testing -a 0 -p private`|
 
 ## How to run
 
