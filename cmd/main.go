@@ -18,7 +18,7 @@ import (
 )
 
 const (
-	version       = "1.0.2"
+	version       = "1.1.0"
 	hoursPerMonth = 30 * 24
 	newLine       = "\r\n"
 )
@@ -63,6 +63,18 @@ func validateParameters(config *gitlabsanitycli.Config) error {
 	if len(config.ProjectType) < 1 {
 		config.ProjectType = "internal"
 	}
+	switch config.ProjectType {
+	case "private", "internal", "public":
+	default:
+		return errors.New("Project type not valid. Please choose between: public, internal, private")
+	}
+
+	if config.Resource == gitlabsanitycli.Pipeline {
+		if config.ResourceId <= 0 {
+			return errors.New("Need project ID to get Pipelines: `-i <number>`")
+		}
+	}
+
 	return nil
 }
 
@@ -73,11 +85,13 @@ func newHandlers(git *gitlab.Client, config gitlabsanitycli.Config) map[string]m
 	userHandler := gitlabsanitycli.UserHandler{Git: git, Printer: printer, Config: &config}
 	runnerHandler := gitlabsanitycli.RunnerHandler{Git: git, Printer: printer, Config: &config}
 	groupRunnerHandler := gitlabsanitycli.GroupRunnerHandler{Git: git, Printer: printer, Config: &config}
+	pipelineHandler := gitlabsanitycli.PipelineHandler{Git: git, Printer: printer, Config: &config}
 	handlers[gitlabsanitycli.List] = make(map[string]func())
 	handlers[gitlabsanitycli.List][gitlabsanitycli.Project] = projectHandler.List
 	handlers[gitlabsanitycli.List][gitlabsanitycli.User] = userHandler.List
 	handlers[gitlabsanitycli.List][gitlabsanitycli.Runner] = runnerHandler.List
 	handlers[gitlabsanitycli.List][gitlabsanitycli.GroupRunner] = groupRunnerHandler.List
+	handlers[gitlabsanitycli.List][gitlabsanitycli.Pipeline] = pipelineHandler.List
 	handlers[gitlabsanitycli.Archive] = make(map[string]func())
 	handlers[gitlabsanitycli.Archive][gitlabsanitycli.Project] = projectHandler.Archive
 	handlers[gitlabsanitycli.ArchiveAll] = make(map[string]func())
@@ -86,10 +100,12 @@ func newHandlers(git *gitlab.Client, config gitlabsanitycli.Config) map[string]m
 	handlers[gitlabsanitycli.Delete][gitlabsanitycli.Project] = projectHandler.Delete
 	handlers[gitlabsanitycli.Delete][gitlabsanitycli.Runner] = runnerHandler.Delete
 	handlers[gitlabsanitycli.Delete][gitlabsanitycli.GroupRunner] = groupRunnerHandler.Delete
+	handlers[gitlabsanitycli.Delete][gitlabsanitycli.Pipeline] = pipelineHandler.Delete
 	handlers[gitlabsanitycli.DeleteAll] = make(map[string]func())
 	handlers[gitlabsanitycli.DeleteAll][gitlabsanitycli.Project] = projectHandler.DeleteAll
 	handlers[gitlabsanitycli.DeleteAll][gitlabsanitycli.Runner] = runnerHandler.DeleteAll
 	handlers[gitlabsanitycli.DeleteAll][gitlabsanitycli.GroupRunner] = groupRunnerHandler.DeleteAll
+	handlers[gitlabsanitycli.DeleteAll][gitlabsanitycli.Pipeline] = pipelineHandler.DeleteAll
 	return handlers
 }
 

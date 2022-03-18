@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.1.0]
+## Added
+New pipeline resource parameter : `-r pipeline`.
+    It is possible to operator: list, delete and delete-all on pipelines
+    Pipelines require to give a project ID Number with parameter `-i <INT>`
+    Additional added pipeline ID parameter for delete operation: `--pipelineId <INT>`
+## Changed
+Round the LastActivity/Finished value from listing projects and pipelines
 
 ## [1.0.2]
 ## Added

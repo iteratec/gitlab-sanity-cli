@@ -35,20 +35,22 @@ The CLI is able to list, remove and archive a set of resources.
 | Action | Resource | Query filter applicable | Age filter applicable | Status filter applicable | Example |
 |---|---|---|---|---|---|
 |list|user|YES|-|-| List user with name admin: <br> `gitlab-sanity-cli -o list -r user -q admin`|
-|list|project|YES|YES|-| List internal projects older two years: <br> `gitlab-sanity-cli -o list -r project -a 24 -p internal`|
+|list|project|YES|YES|-| List internal projects older two years: <br> `gitlab-sanity-cli -o list -r project -a 24 -p public`|
 |list|runner|YES|-|YES| List docker based runner: <br> `gitlab-sanity-cli -o list -r runner -q docker`|
 |list|groupRunner|YES|-|YES| List online kubernetes based runner: <br> `gitlab-sanity-cli -o list -r groupRunner -q kubernetes -s online` |
+|list|pipeline|-|YES|-| List all Pipelines from specific project id: <BR> `gitlab-sanity-cli -o list -r pipeline -i 1337 -a 0` |
 |delete|user|-|-|-| <b>Delete is not capable on users</b> |
 |delete|project|-|-|-| Remove project with ID 123: <br>  `gitlab-sanity-cli -o delete -r project -i 123`|
 |delete|runner|-|-|-| Remove runner with ID 123: <br>  `gitlab-sanity-cli -o delete -r runner -i 123`|
 |delete|groupRunner|-|-|-| Remove runner with ID 123: <br> `gitlab-sanity-cli -o delete -r groupRunner -i 123`|
+|delete|pipeline|-|-|-| Remove Pipeline with ID 123 from project: <BR> `gitlab-sanity-cli -o delete -r pipeline -i 1337 --pipelineId 123` |
 |delete-all|user|-|-|-|<b>Delete-All is not capable on users</b> |
 |delete-all|project|YES|YES|-| Remove all projects with name testing: <br>`gitlab-sanity-cli -o delete-all -r project -a 0 -q testing` <br><br> Remove all projects older than five years: <br> `gitlab-sanity-cli -o delete-all -r project -a 60`|
 |delete-all|runner|YES|-|YES| Remove all offline runner: <br>`gitlab-sanity-cli -o delete-all -r runner -s offline`|
 |delete-all|groupRunner|YES|-|YES| Remove all groupRunner (offline and online): <br>`gitlab-sanity-cli -o delete-all -r groupRunner` |
+|delete-all|pipeline|-|YES|-| Remove all Pipelines from project: <BR> `gitlab-sanity-cli -o delete-all -r pipeline -i 1337` |
 |archive|project|-|-|-|Archive project with ID 123:<br>`gitlab-sanity-cli -o archive -r project -i 123`|
 |archive-all|project|YES|YES|-|Archive project with name testing:<br>`gitlab-sanity-cli -o archive-all -r project -q testing -a 0 -p private`|
-
 ## How to run
 
 ### Requirements

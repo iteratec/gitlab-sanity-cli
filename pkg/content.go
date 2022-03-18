@@ -14,4 +14,6 @@ type content struct {
 	GroupName    string
 	GroupID      int
 	LastActivity float64
+	URL          string
+	ProjectID    int
 }

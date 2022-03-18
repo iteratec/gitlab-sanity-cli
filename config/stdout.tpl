@@ -9,4 +9,6 @@ Runner ID: {{ .ID}}
 ID: {{ .ID }}, Name: {{ .Name }}
 {{ else if eq .Req "project" -}}
 ID: {{ .ID }}, Name: {{ .Name }}, Last Activity: {{ .LastActivity }} h
+{{ else if eq .Req "pipeline" -}}
+ID: {{ .ID }}, ProjectID: {{ .ProjectID }}, Status: {{ .Status }}, Finished: {{ .LastActivity }} h ago, Url: {{ .URL }}
 {{ end }}

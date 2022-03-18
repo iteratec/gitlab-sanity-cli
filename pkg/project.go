@@ -2,6 +2,7 @@ package gitlabsanitycli
 
 import (
 	"log"
+	"math"
 	"sync"
 	"time"
 
@@ -31,7 +32,7 @@ func (p ProjectHandler) Pipe(wg *sync.WaitGroup, wc chan<- content, rc <-chan in
 				Req:          Project,
 				ID:           project.ID,
 				Name:         project.Name,
-				LastActivity: now.Sub(*project.LastActivityAt).Hours(),
+				LastActivity: math.Round(now.Sub(*project.LastActivityAt).Hours()),
 			}
 		}
 	}
